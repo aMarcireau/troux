@@ -17,6 +17,10 @@ class Chromosom:
         self.number = number
         self.gene = gene
     
+    
+    def __eq__(self, other):
+        return self.getNumber == other.getNumber() and self.getGene() == other.getGene()
+        
 
     def getNumber(self):
         return self.number
