@@ -1,6 +1,19 @@
 #!/usr/local/bin/python3 python3
 # Python 3.*
 
+# Imports
+# ------------------------------
+import sys
+import os
+import random
+
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+
+from Chromosom import Chromosom
+
+
+# Class
+# ------------------------------
 class Being:
     """
     Represent a being

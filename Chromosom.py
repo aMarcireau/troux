@@ -1,6 +1,8 @@
 #!/usr/local/bin/python3 python3
 # Python 3.*
 
+# Class
+# ------------------------------
 class Chromosom:
     """
     Represent a chromosom
