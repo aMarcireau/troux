@@ -37,7 +37,25 @@ class Being:
 
     def getChromosoms(self):
         return self.chromosoms
+
+
+    def getChromosomsSet(self):
+        chromosomsSet = {}
+        
+        for chromosom in self.getChromosoms():
+            if chromosom.getNumber() in chromosomsSet:
+                chromosomsSet[chromosom.getNumber()].append(chromosom)
+            else:
+                chromosomsSet[chromosom.getNumber()] = [chromosom]
+                
+        return chromosomsSet
+    
+    
+    def addChromosom(self, chromosom):
+        self.chromosoms.append(chromosom)
         
         
-    def getChromosomsByNumber(self, number):
-        return [chromosom for chromosom in self.chromosoms if chromosom.getNumber() == number]
+    def removeChromosom(self, chromosom):
+        self.chromosoms.remove(chromosom)
+            
+            
