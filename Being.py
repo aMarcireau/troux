@@ -29,8 +29,8 @@ class Being:
         self.name = name
         
         self.chromosoms = []
-        
-    
+
+
     def getName(self):
         return self.name()
 
