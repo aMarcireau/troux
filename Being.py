@@ -36,7 +36,7 @@ class Being:
 
 
     def getChromosoms(self):
-        return self.chromosoms()
+        return self.chromosoms
         
         
     def getChromosomsByNumber(self, number):
