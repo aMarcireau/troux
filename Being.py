@@ -59,3 +59,7 @@ class Being:
         self.chromosoms.remove(chromosom)
             
             
+    def getSpecie(self):
+        return list(self.getChromosomsSet().keys())
+    
+    
