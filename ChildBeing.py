@@ -13,17 +13,25 @@ from Being import Being
 
 # Class
 # ------------------------------
-class FatherBeing(Being):
+class ChildBeing(Being):
     """
-    Represent a father being
+    Represent a children being
     Can be human or else
     
     @args:
         name: string, being name
-        chromosoms: array of Chromosom objects
-    """
+        parents: array of Being objects   
     
-    def __init__(self, name, chromosoms):
+    """
+
+    def __init__(self, name, parents):
+        self.parents = parents
+        
         super().__init__(name)
         
-        self.chromosoms = chromosoms
+        self.chromosoms = self.geneticMixing([parent.getChromosomsSet() for parent in self.getParents()])
+        
+
+
+    def getParents(self):
+        return self.parents

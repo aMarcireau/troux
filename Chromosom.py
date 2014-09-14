@@ -1,6 +1,8 @@
 #!/usr/local/bin/python3 python3
 # Python 3.*
 
+# Class
+# ------------------------------
 class Chromosom:
     """
     Represent a chromosom
@@ -15,6 +17,10 @@ class Chromosom:
         self.number = number
         self.gene = gene
     
+    
+    def __eq__(self, other):
+        return self.getNumber == other.getNumber() and self.getGene() == other.getGene()
+        
 
     def getNumber(self):
         return self.number

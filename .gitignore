@@ -1,3 +1,5 @@
+*.pyc
+
 # OS Files
 *.esproj
 .DS_Store
