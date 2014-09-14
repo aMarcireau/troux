@@ -29,7 +29,7 @@ class ChildBeing(Being):
         
         super().__init__(name)
         
-        self.chromosoms = self.geneticMixing([parent.getChromosomsSet() for parent in self.getParents])
+        self.chromosoms = self.geneticMixing([parent.getChromosomsSet() for parent in self.getParents()])
         
 
 
