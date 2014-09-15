@@ -1,6 +1,8 @@
 #!/usr/local/bin/python3 python3
 # Python 3.*
 
+# -*- coding: utf-8 -*-
+
 # Imports
 # ------------------------------
 import sys
@@ -10,6 +12,7 @@ import random
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from Chromosom import Chromosom
+
 
 
 # Class
@@ -25,10 +28,10 @@ class Being:
     
     """
     
-    def __init__(self, name):
+    def __init__(self, name, chromosoms):
         self.name = name
-        
-        self.chromosoms = []
+    
+        self.chromosoms = chromosoms
 
 
     def getName(self):
@@ -115,3 +118,7 @@ class Being:
                 chromosoms += random.sample(chromosomsPool, chromosomQuantity)
 
         return chromosoms
+
+
+    def mate(self, being, name):
+    	return Being(name, self.geneticMix([self.getChromosomsSet(), being.getChromosomsSet()]))
