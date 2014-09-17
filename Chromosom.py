@@ -1,5 +1,6 @@
 #!/usr/local/bin/python3 python3
 # Python 3.*
+# -*- coding: utf-8 -*-
 
 # Class
 # ------------------------------
