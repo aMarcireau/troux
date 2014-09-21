@@ -11,7 +11,7 @@ import random
 
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
-from Chromosom import Chromosom
+from Chromosome import Chromosome
 
 
 
@@ -24,101 +24,81 @@ class Being:
     
     @args:
         name: string, being name
-        chromosoms: 
+        chromosomes: 
     
     """
     
-    def __init__(self, name, chromosoms):
+    def __init__(self, name, chromosomes):
         self.name = name
     
-        self.chromosoms = chromosoms
+        self.chromosomes = chromosomes
 
 
     def getName(self):
         return self.name()
 
 
-    def getChromosoms(self):
-        return self.chromosoms
+    def getChromosomes(self):
+        return self.chromosomes
 
 
-    def getChromosomsSet(self):
-        chromosomsSet = {}
+    def getChromosomesByNames(self):
+        chromosomesByNames = {}
         
-        for chromosom in self.getChromosoms():
-            if chromosom.getNumber() in chromosomsSet:
-                chromosomsSet[chromosom.getNumber()].append(chromosom)
+        for chromosome in self.getChromosomes():
+
+            if chromosome.getName() in chromosomesByNames:
+                chromosomesByNames[chromosome.getName()].append(chromosome)
             else:
-                chromosomsSet[chromosom.getNumber()] = [chromosom]
+                #Python implicitely creates a key whenever you declare a property on a key that doesn't exist
+                chromosomesByNames[chromosome.getName()] = [chromosome] 
                 
-        return chromosomsSet
+        return chromosomesByNames
     
-    
-    def addChromosom(self, chromosom):
-        self.chromosoms.append(chromosom)
-        
-        
-    def removeChromosom(self, chromosom):
-        self.chromosoms.remove(chromosom)
-            
-            
-    def getSpecie(self):
-        return list(self.getChromosomsSet().keys())
-    
-    
-    def geneticMix(self, chromosomsSets):
-        """
-        Mix any number of chromosoms sets
-        The sets may come from different species
-        
-        @args:
-            chromosomsSets: array of chromosoms sets
-                chromosoms set: array of Chromosom objects
-                
-        @return:
-            chromosoms list
-        
-        """
-        
-        # Retrieve all the unique chromosoms numbers from all the chromosoms sets
-        chromosomsNumbers = set()
-        for chromosomsSet in chromosomsSets:
-            chromosomsNumbers = chromosomsNumbers.union(set(chromosomsSet.keys()))
-        
-        # Determine the mean number of chromosoms associated with each chromosom number
-        # If the mean is not an integer, it will be randomly chosen among the two closest integers
-        # The mean will be used as the expected quantity of chromosoms
-        chromosomsQuantityByNumber = {}
-        for chromosomNumber in chromosomsNumbers:
-            mean = sum([len(chromosomsSet[chromosomNumber]) for chromosomsSet in chromosomsSets]) / len(chromosomsSets)
-            
-            intMean = int(mean)
-            if not intMean == mean:
-                intMean = random.chose([intMean, intMean + 1]) 
-            
-            chromosomsQuantityByNumber[chromosomNumber] = intMean
-        
-        # Pick a chromosom from each chromosom set if the number of sets equals the quantity of expected chromosoms
-        # If it does not (degenerated chromosom mix), the chromosoms with a given number from all the sets will be pooled together,
-        # then randomly drawn
-        chromosomsSetsLength = len(chromosomsSets)
-        chromosoms = []
-        for chromosomNumber, chromosomQuantity in chromosomsQuantityByNumber.items():
-            if chromosomQuantity == chromosomsSetsLength:
-                # Regular chromosom mix
-                for chromosomsSet in chromosomsSets:
-                    chromosoms.append(random.choice(chromosomsSet[chromosomNumber]))
-                    
-            else:
-                # Degenerated chromosom mix
-                chromosomsPool = []
-                for chromosomsSet in chromosomsSets:
-                    chromosomsPool += chromosomsSet[chromosomNumber]
-                    
-                chromosoms += random.sample(chromosomsPool, chromosomQuantity)
 
-        return chromosoms
+    def getChromosomesNameSet(self):
+        return set(self.getChromosomesByNames().keys())
+
+
+    def addChromosome(self, chromosome):
+        self.chromosomes.append(chromosome)
+        
+        
+    def removeChromosome(self, chromosome):
+        self.chromosomes.remove(chromosome)
 
 
     def mate(self, being, name):
-    	return Being(name, self.geneticMix([self.getChromosomsSet(), being.getChromosomsSet()]))
+        child = Being(name, [])
+
+        # Declaration of sets of chromosomes for each being
+        intersectionSet = self.getChromosomesNameSet().intersection(being.getChromosomesNameSet())
+        selfUniqueSet = self.getChromosomesNameSet().difference(being.getChromosomesNameSet())
+        beingUniqueSet = being.getChromosomesNameSet().difference(self.getChromosomesNameSet())
+
+        for chromosomeName in intersectionSet:
+
+            for individual in [self, being]:
+                chromosomes = individual.getChromosomesByNames()[chromosomeName]
+                chromosomesMean = len(chromosomes) / 2
+
+                #selectionSize is the number of chromosomes each parent is giving to his child for a certain chromosome type. It is used to create trisomic children
+                if (chromosomesMean % 2 == 0):
+                    selectionSize = int(chromosomesMean)
+
+                else:
+                    selectionSize = random.choice([int(chromosomesMean), int(chromosomesMean) + 1])
+
+                #Randomly choose a certain number of chromosomes (number = selectionSize)
+                for chromosome in random.sample(chromosomes, selectionSize):
+                    child.addChromosome(chromosome)
+
+        for individual, individualUniqueSet in [(self, selfUniqueSet), (being, selfUniqueSet)]:
+
+            for chromosomeName in individualUniqueSet:
+                chromosomes = individual.getChromosomesByNames()[chromosomeName]
+
+                for chromosome in chromosomes:
+                    child.addChromosome(chromosome)
+    
+        return child
