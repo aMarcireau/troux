@@ -9,10 +9,11 @@ import sys
 import os
 import random
 
+
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from Chromosome import Chromosome
-
+from Phenotype import Phenotype
 
 
 # Class
@@ -66,6 +67,10 @@ class Being:
         
     def removeChromosome(self, chromosome):
         self.chromosomes.remove(chromosome)
+
+
+    def getSpecie(self):
+        return Phenotype(self).getSpecie()
 
 
     def mate(self, being, name):

@@ -35,12 +35,33 @@ yChromosome = Chromosome(
     name = "gender",
     gene = "Y")
 
-originalGinger = Being("Joseph the brunette", [gingerChromosome, blackChromosome, yChromosome, xChromosome])
-originalSlut = Being("Jackie's mother the ginger", [blackChromosome, blackChromosome, xChromosome, xChromosome])
-originalFucker = Being("Zboub the blond", [blondChromosome, blondChromosome, xChromosome, yChromosome])
+caucasian = Chromosome(
+    name = "primary",
+    gene = "caucasian")
+
+sparklesClean = Chromosome(
+    name = "sparkles",
+    gene = "clean")
+
+sparklesDisease = Chromosome(
+    name = "sparkles",
+    gene = "sparkles")
+
+beautiful = Chromosome(
+    name = "beauty",
+    gene = "beautiful")
+
+ugly = Chromosome(
+    name = "beauty",
+    gene = "ugly")
+
+originalGinger = Being("Joseph the brunette", [gingerChromosome, blackChromosome, yChromosome, xChromosome, sparklesDisease, sparklesDisease, beautiful, beautiful, caucasian, caucasian])
+originalSlut = Being("Jackie's mother the ginger", [blackChromosome, blackChromosome, xChromosome, xChromosome, sparklesDisease, sparklesDisease, beautiful, beautiful, caucasian, caucasian])
+originalFucker = Being("Zboub the blond", [blondChromosome, blondChromosome, xChromosome, yChromosome, sparklesClean, sparklesClean, beautiful, beautiful, caucasian, caucasian])
 
 Jesus = originalGinger.mate(originalSlut, "Jesus")
 Marie = Jesus.mate(originalFucker, "Marie")
+
 
 #print(test.getName)
 print(
@@ -53,4 +74,10 @@ print(
     , Jesus.getChromosomesByNames()["gender"][1].getGene()
     , Jesus.getChromosomesByNames()["secondary"][0].getGene()
     , Jesus.getChromosomesByNames()["secondary"][1].getGene()
+    , Jesus.getChromosomesByNames()["sparkles"][0].getGene()
+    , Jesus.getChromosomesByNames()["sparkles"][1].getGene()
+    , Jesus.getChromosomesByNames()["beauty"][0].getGene()
+    , Jesus.getChromosomesByNames()["beauty"][1].getGene()
+    , "Jesus specie is: "
+    ,Jesus.getSpecie()
     )
