@@ -8,39 +8,60 @@ import os
 
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
-from Chromosom import Chromosom
+from Chromosome import Chromosome
 from Being import Being
 
 
-gingerChromosom = Chromosom(
-    number = 1,
+gingerChromosome = Chromosome(
+    name = "secondary",
     gene = "ginger"
 )
 
-blackHairedChromosom = Chromosom(
-    number = 1,
-    gene = "blackHaired"
+blackChromosome = Chromosome(
+    name = "secondary",
+    gene = "black"
 )
 
-blondHairedChromosom = Chromosom(
-    number = 1,
-    gene = "blondHaired"
+blondChromosome = Chromosome(
+    name = "secondary",
+    gene = "blond"
 )
 
-xChromosom = Chromosom(
-    number = 2,
-    gene = "X chromosom")
+xChromosome = Chromosome(
+    name = "gender",
+    gene = "X")
 
-yChromosom = Chromosom(
-    number = 2,
-    gene = "Y chromosom")
+yChromosome = Chromosome(
+    name = "gender",
+    gene = "Y")
 
-originalGinger = Being("Joseph the blackhaired", [gingerChromosom, blackHairedChromosom, yChromosom, xChromosom])
-originalSlut = Being("Jackie's mother the ginger", [blackHairedChromosom, blackHairedChromosom, xChromosom, xChromosom])
-originalFucker = Being("Zboub the blondhaired", [blondHairedChromosom, blondHairedChromosom, xChromosom, yChromosom])
+caucasian = Chromosome(
+    name = "primary",
+    gene = "caucasian")
+
+sparklesClean = Chromosome(
+    name = "sparkles",
+    gene = "clean")
+
+sparklesDisease = Chromosome(
+    name = "sparkles",
+    gene = "sparkles")
+
+beautiful = Chromosome(
+    name = "beauty",
+    gene = "beautiful")
+
+ugly = Chromosome(
+    name = "beauty",
+    gene = "ugly")
+
+originalGinger = Being("Joseph the brunette", [gingerChromosome, blackChromosome, yChromosome, xChromosome, sparklesDisease, sparklesDisease, beautiful, beautiful, caucasian, caucasian])
+originalSlut = Being("Jackie's mother the ginger", [blackChromosome, blackChromosome, xChromosome, xChromosome, sparklesDisease, sparklesDisease, beautiful, beautiful, caucasian, caucasian])
+originalFucker = Being("Zboub the blond", [blondChromosome, blondChromosome, xChromosome, yChromosome, sparklesClean, sparklesClean, beautiful, beautiful, caucasian, caucasian])
 
 Jesus = originalGinger.mate(originalSlut, "Jesus")
 Marie = Jesus.mate(originalFucker, "Marie")
+
 
 #print(test.getName)
 print(
@@ -49,6 +70,14 @@ print(
     , " is named "
     ,Jesus.name
     , "and it is "
-    , Jesus.getChromosomsSet()[1][0].getGene()
-    , Jesus.getChromosomsSet()[1][1].getGene()
+    , Jesus.getChromosomesByNames()["gender"][0].getGene()
+    , Jesus.getChromosomesByNames()["gender"][1].getGene()
+    , Jesus.getChromosomesByNames()["secondary"][0].getGene()
+    , Jesus.getChromosomesByNames()["secondary"][1].getGene()
+    , Jesus.getChromosomesByNames()["sparkles"][0].getGene()
+    , Jesus.getChromosomesByNames()["sparkles"][1].getGene()
+    , Jesus.getChromosomesByNames()["beauty"][0].getGene()
+    , Jesus.getChromosomesByNames()["beauty"][1].getGene()
+    , "Jesus specie is: "
+    ,Jesus.getSpecie()
     )
