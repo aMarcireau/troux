@@ -31,14 +31,44 @@ class Being:
     
     def __init__(self, name, chromosomes):
         self.name = name
-    
         self.chromosomes = chromosomes
+        
+        self.parents = []
+        self.children = []
 
 
     def getName(self):
-        return self.name()
+        return self.name
+        
+    
+    def getChildren(self):
+        return self.children
+        
+        
+    def getParents(self):
+        return self.parents
+        
+        
+    def getPhenotype(self):
+        return self.phenotype
+        
+        
+    def addParent(self, being):
+        self.parents.append(being)
+        
+    
+    def addChild(self, being):
+        self.children.append(being)
 
-
+    
+    def removeChild(self, being):
+        self.children.remove(being)
+        
+    
+    def removeParent(self, being):
+        self.children.remove(being)
+            
+            
     def getChromosomes(self):
         return self.chromosomes
 
@@ -105,5 +135,11 @@ class Being:
 
                 for chromosome in chromosomes:
                     child.addChromosome(chromosome)
+                    
+        self.addChild(child)
+        being.addChild(child)
+        
+        child.addParent(self)
+        child.addParent(being)
     
         return child
