@@ -165,6 +165,10 @@ class Being:
         return any([self.parents[0].isConsanguineous(otherParent) for otherParent in self.parents if not otherParent == self.parents[0]])
 
 
+    def getGender(self):
+        return Phenotype(self).getGender()
+
+
     def mate(self, being, name):
         child = Being(name, [])
 
