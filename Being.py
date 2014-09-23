@@ -31,16 +31,55 @@ class Being:
     
     def __init__(self, name, chromosomes):
         self.name = name
-    
         self.chromosomes = chromosomes
+        
+        self.phenotype = Phenotype(self)
+        self.parents = []
+        self.children = []
 
 
     def getName(self):
-        return self.name()
+        return self.name
+        
+    
+    def getChildren(self):
+        return self.children
+        
+        
+    def getParents(self):
+        return self.parents
+        
+        
+    def getPhenotype(self):
+        return self.phenotype
+        
+        
+    def addParent(self, being):
+        self.parents.append(being)
+        
+    
+    def addChild(self, being):
+        self.children.append(being)
 
-
+    
+    def removeChild(self, being):
+        self.children.remove(being)
+        
+    
+    def removeParent(self, being):
+        self.children.remove(being)
+            
+            
     def getChromosomes(self):
         return self.chromosomes
+        
+
+    def addChromosome(self, chromosome):
+        self.chromosomes.append(chromosome)
+        
+        
+    def removeChromosome(self, chromosome):
+        self.chromosomes.remove(chromosome)
 
 
     def getChromosomesByNames(self):
@@ -61,16 +100,69 @@ class Being:
         return set(self.getChromosomesByNames().keys())
 
 
-    def addChromosome(self, chromosome):
-        self.chromosomes.append(chromosome)
-        
-        
-    def removeChromosome(self, chromosome):
-        self.chromosomes.remove(chromosome)
-
-
     def getSpecie(self):
-        return Phenotype(self).getSpecie()
+        return self.phenotype.getSpecie()
+        
+        
+    def isDescendant(self, being, maxDepth = 10, excludedBeings = []):
+        if self == being:
+            raise Exception("isDescendant cannot be called with self as argument")
+
+        if being in self.parents:
+            return True
+            
+        if not self.parents or not maxDepth:
+            return False
+        
+        cleanedParents = [parent for parent in self.parents if not parent in excludedBeings]
+        
+        if not cleanedParents:
+            return False
+        
+        return any([parent.isDescendant(being = being, maxDepth = maxDepth - 1, excludedBeings = excludedBeings + [self]) for parent in cleanedParents])
+            
+
+    def isAncestor(self, being, maxDepth = 10, excludedBeings = []):
+        if self == being:
+            raise Exception("isAncestor cannot be called with self as argument")
+    
+        if being in self.children:
+            return True
+            
+        if not self.children or not maxDepth:
+            return False
+            
+        cleanedChildren = [child for child in self.children if not child in excludedBeings]
+        
+        if not cleanedChildren:
+            return False
+        
+        return any([child.isAncestor(being = being, maxDepth = maxDepth - 1, excludedBeings = excludedBeings + [self]) for child in cleanedChildren])
+    
+    
+    def isConsanguineous(self, being, maxDepth = 10, excludedBeings = [], firstCall = True):
+        if self == being:
+            if firstCall:
+                raise Exception("isConsanguineous cannot be called with self as argument")
+            else:
+                return True
+
+        if self.isAncestor(being = being, maxDepth = maxDepth, excludedBeings = excludedBeings):
+            return True    
+        
+        if not self.parents or not maxDepth:
+            return False
+            
+        cleanedParents = [parent for parent in self.parents if not parent in excludedBeings]
+        
+        if not cleanedParents:
+            return False
+        
+        return any([parent.isConsanguineous(being = being, maxDepth = maxDepth - 1, excludedBeings = excludedBeings + [self], firstCall = False) for parent in cleanedParents])
+    
+    
+    def isInbred(self):
+        return any([self.parents[0].isConsanguineous(otherParent) for otherParent in self.parents if not otherParent == self.parents[0]])
 
 
     def mate(self, being, name):
@@ -105,5 +197,11 @@ class Being:
 
                 for chromosome in chromosomes:
                     child.addChromosome(chromosome)
+                    
+        self.addChild(child)
+        being.addChild(child)
+        
+        child.addParent(self)
+        child.addParent(being)
     
         return child
