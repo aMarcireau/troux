@@ -72,6 +72,14 @@ class Being:
             
     def getChromosomes(self):
         return self.chromosomes
+        
+
+    def addChromosome(self, chromosome):
+        self.chromosomes.append(chromosome)
+        
+        
+    def removeChromosome(self, chromosome):
+        self.chromosomes.remove(chromosome)
 
 
     def getChromosomesByNames(self):
@@ -92,14 +100,10 @@ class Being:
         return set(self.getChromosomesByNames().keys())
 
 
-    def addChromosome(self, chromosome):
-        self.chromosomes.append(chromosome)
     def getSpecie(self):
         return self.phenotype.getSpecie()
         
         
-    def removeChromosome(self, chromosome):
-        self.chromosomes.remove(chromosome)
 
 
 
