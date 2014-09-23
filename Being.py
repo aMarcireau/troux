@@ -33,6 +33,7 @@ class Being:
         self.name = name
         self.chromosomes = chromosomes
         
+        self.phenotype = Phenotype(self)
         self.parents = []
         self.children = []
 
@@ -93,14 +94,14 @@ class Being:
 
     def addChromosome(self, chromosome):
         self.chromosomes.append(chromosome)
+    def getSpecie(self):
+        return self.phenotype.getSpecie()
         
         
     def removeChromosome(self, chromosome):
         self.chromosomes.remove(chromosome)
 
 
-    def getSpecie(self):
-        return Phenotype(self).getSpecie()
 
 
     def mate(self, being, name):
